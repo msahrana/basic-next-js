@@ -1,6 +1,6 @@
 export default async function getComments() {
   const res = await fetch("https://jsonplaceholder.typicode.com/comments", {
-    // next: { revalidate: 86400 },
+    next: {revalidate: 86400},
   });
   const data = await res.json();
   return data;

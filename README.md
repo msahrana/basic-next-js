@@ -43,4 +43,4 @@ npm package:
 4. npm i axios
 5. npm install react-hot-toast
 6. npm i --save-dev @types/nodemailer
-7.
+7. npm i --save-dev @types/jsonwebtoken

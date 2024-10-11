@@ -1,12 +1,39 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import axios from "axios";
+import {useRouter} from "next/navigation";
 
 const Login = () => {
+  const emailRef = React.useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const handleSign = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+    console.log(data);
+    // Send data to server
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/sign-in`,
+        data
+      );
+      if (response.data?.status === 200) {
+        router.push("/");
+      }
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
   return (
-    <div className="w-full max-w-md p-8 space-y-3 rounded-xl border-2 mx-auto">
+    <div className="w-full max-w-md p-8 space-y-3 rounded-xl border-2 mx-auto mt-10 mb-28">
       <h1 className="text-2xl font-bold text-center">Login Form</h1>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSign}>
         <div className="space-y-1 text-sm">
           <label htmlFor="email" className="block dark:text-gray-600">
             Email
@@ -17,6 +44,7 @@ const Login = () => {
             id="email"
             placeholder="Your Email"
             className="w-full px-4 py-3 rounded-md border"
+            required
           />
         </div>
         <div className="space-y-1 text-sm">
@@ -29,6 +57,7 @@ const Login = () => {
             id="password"
             placeholder="Type Password"
             className="w-full px-4 py-3 rounded-md border"
+            required
           />
         </div>
         <button className="block w-full p-3 text-center rounded-sm bg-blue-500 font-bold text-white">

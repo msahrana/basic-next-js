@@ -42,3 +42,5 @@ npm package:
 3. npm i mongodb
 4. npm i axios
 5. npm install react-hot-toast
+6. npm i --save-dev @types/nodemailer
+7.

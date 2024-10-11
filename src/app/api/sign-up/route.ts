@@ -2,7 +2,7 @@ import {connectDb} from "@/lib/connectDB";
 import {NextRequest, NextResponse} from "next/server";
 import bcryptjs from "bcryptjs";
 import User from "@/models/userModel";
-import toast from "react-hot-toast";
+import {SendEmail} from "@/helper/sendMail";
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -20,8 +20,17 @@ export const POST = async (request: NextRequest) => {
 
     const hashedPassword = await bcryptjs.hash(password, 6);
     const newUser = new User({name, email, password: hashedPassword});
-
     await newUser.save();
+
+    /* for send mail */
+    // const sendEmail = await SendEmail(email, "verify-email");
+    // if (sendEmail === "Email sent successfully") {
+    //   return NextResponse.json({
+    //     message: "User created successfully",
+    //     status: 200,
+    //   });
+    // }
+
     return NextResponse.json(userInfo);
   } catch (error: any) {
     return NextResponse.json({
